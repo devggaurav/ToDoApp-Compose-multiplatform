@@ -1,5 +1,7 @@
 package ui
 
+import data.Todo
+
 
 //
 // Created by Code For Android on 23/05/24.
@@ -9,7 +11,7 @@ package ui
 sealed class UiEvent {
 
     data object PopBackStack : UiEvent()
-    data class Navigate(val route: String) : UiEvent()
+    data class Navigate(val id: Todo?) : UiEvent()
 
     data class ShowSnackBar(
         val message: String,

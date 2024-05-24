@@ -18,7 +18,7 @@ class Todo : RealmObject {
     var isDone: Boolean = false
 
     @PrimaryKey
-    var _id: ObjectId = ObjectId()
+    var _id: ObjectId? = ObjectId()
 }
 
 

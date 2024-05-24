@@ -1,6 +1,7 @@
 package data
 
 import kotlinx.coroutines.flow.Flow
+import org.mongodb.kbson.ObjectId
 
 
 //
@@ -14,7 +15,7 @@ interface TodoRepository {
 
     suspend fun insertTodo(todo: Todo)
 
-    suspend fun getTodoById(id: Int): Todo?
+    suspend fun getTodoById(id: ObjectId): Todo?
 
     fun getTodos(): Flow<List<Todo>>
 

@@ -6,6 +6,7 @@ import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
+import org.mongodb.kbson.ObjectId
 
 
 //
@@ -39,7 +40,7 @@ class TodoRepositoryImpl : TodoRepository {
         }
     }
 
-    override suspend fun getTodoById(id: Int): Todo? {
+    override suspend fun getTodoById(id: ObjectId): Todo? {
         return realm?.query<Todo>("id == $0", id)?.first()?.find()
     }
 

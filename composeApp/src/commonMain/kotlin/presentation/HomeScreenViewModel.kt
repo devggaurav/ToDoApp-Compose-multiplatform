@@ -34,8 +34,7 @@ class HomeScreenViewModel(
     fun onEvent(event: TodoListEvent) {
         when (event) {
             is TodoListEvent.OnAddTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO))
-
+                sendUiEvent(UiEvent.Navigate(null))
             }
 
             is TodoListEvent.OnDeleteTodoClick -> {
@@ -69,7 +68,7 @@ class HomeScreenViewModel(
             }
 
             is TodoListEvent.OnTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO + "?todoId=${event.todo._id}"))
+                sendUiEvent(UiEvent.Navigate(event.todo))
             }
 
             TodoListEvent.OnUndoDeleteClick -> {

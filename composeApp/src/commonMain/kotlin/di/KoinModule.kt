@@ -5,6 +5,7 @@ import data.TodoRepositoryImpl
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import presentation.HomeScreenViewModel
+import presentation.addEditTodo.AddEditTodoViewModel
 
 
 //
@@ -16,6 +17,7 @@ val appModule = module {
     single<TodoRepository> { TodoRepositoryImpl() }
     factory {
         HomeScreenViewModel(todoRepository = get())
+        AddEditTodoViewModel(todoRepository = get())
     }
 }
 
