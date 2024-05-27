@@ -15,10 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Todo
+import ui.theme.secondaryLight
 
 
 //
@@ -48,7 +51,10 @@ fun TodoItem(
                 Text(
                     text = todo.title,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    style = TextStyle(
+                        color = Color.Black
+                    )
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
@@ -65,7 +71,7 @@ fun TodoItem(
             }
             todo.description?.let {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = it)
+                Text(text = it, fontSize = 10.sp, style = TextStyle(color = secondaryLight))
             }
 
         }

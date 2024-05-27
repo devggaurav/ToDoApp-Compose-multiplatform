@@ -40,6 +40,7 @@ class HomeScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel = getScreenModel<HomeScreenViewModel>()
+
         val todos = viewModel.todos.collectAsState(initial = emptyList())
 
         val snackBarHostState = remember { SnackbarHostState() }

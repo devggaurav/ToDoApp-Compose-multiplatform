@@ -17,6 +17,8 @@ val appModule = module {
     single<TodoRepository> { TodoRepositoryImpl() }
     factory {
         HomeScreenViewModel(todoRepository = get())
+    }
+    factory {
         AddEditTodoViewModel(todoRepository = get())
     }
 }
