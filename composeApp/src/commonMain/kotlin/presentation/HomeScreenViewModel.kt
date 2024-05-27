@@ -34,6 +34,8 @@ class HomeScreenViewModel(
     fun onEvent(event: TodoListEvent) {
         when (event) {
             is TodoListEvent.OnAddTodoClick -> {
+
+
                 sendUiEvent(UiEvent.Navigate(null))
             }
 
@@ -47,21 +49,18 @@ class HomeScreenViewModel(
                             action = "Undo"
                         )
                     )
-
-
                 }
             }
 
             is TodoListEvent.OnDoneChange -> {
                 screenModelScope.launch {
-                    todoRepository.insertTodo(
+                    todoRepository.updateTodo(
                         Todo().apply {
                             title = event.todo.title
                             description = event.todo.description
                             isDone = event.isDone
+                            _id = event.todo._id
                         }
-
-
                     )
                 }
 

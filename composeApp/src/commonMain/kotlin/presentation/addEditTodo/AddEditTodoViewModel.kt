@@ -75,10 +75,13 @@ class AddEditTodoViewModel(
                     }
                     todoRepository.insertTodo(
                         Todo().apply {
-                            title = title
-                            description = description
+                            title = this@AddEditTodoViewModel.title
+                            description = this@AddEditTodoViewModel.description
                             isDone = todo?.isDone ?: false
-                            _id = todo?._id
+                            if (todo?._id != null){
+                                _id = todo!!._id
+                            }
+
 
                         }
                     )

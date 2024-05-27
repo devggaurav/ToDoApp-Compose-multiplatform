@@ -53,7 +53,18 @@ class TodoRepositoryImpl : TodoRepository {
 
     override suspend fun deleteTodo(todo: Todo) {
         realm?.write {
-            delete(query<Todo>("id == ${todo._id}"))
+            try {
+                val queriedTask = query<Todo>(query = "_id == $0", todo._id)
+                    .first()
+                    .find()
+                queriedTask?.let {
+                    findLatest(it)?.let { currentTask ->
+                        delete(currentTask)
+                    }
+                }
+            } catch (e: Exception) {
+                println(e)
+            }
         }
     }
 
@@ -61,6 +72,26 @@ class TodoRepositoryImpl : TodoRepository {
         realm?.write {
             val todos = this.query<Todo>()
             delete(todos)
+        }
+    }
+
+
+    override suspend fun updateTodo(todo: Todo) {
+        realm?.write {
+            try {
+                val queriedTask = query<Todo>("_id == $0", todo._id)
+                    .first()
+                    .find()
+                queriedTask?.let {
+                    findLatest(it)?.let { currentTask ->
+                        currentTask.title = todo.title
+                        currentTask.description = todo.description
+                        currentTask.isDone = todo.isDone
+                    }
+                }
+            } catch (e: Exception) {
+                println(e)
+            }
         }
     }
 }
