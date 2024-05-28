@@ -73,18 +73,25 @@ class AddEditTodoViewModel(
                         )
                         return@launch
                     }
-                    todoRepository.insertTodo(
-                        Todo().apply {
-                            title = this@AddEditTodoViewModel.title
-                            description = this@AddEditTodoViewModel.description
-                            isDone = todo?.isDone ?: false
-                            if (todo?._id != null){
-                                _id = todo!!._id
-                            }
 
 
+                    val todoItem = Todo().apply {
+                        title = this@AddEditTodoViewModel.title
+                        description = this@AddEditTodoViewModel.description
+                        isDone = todo?.isDone ?: false
+                        if (todo?._id != null) {
+                            _id = todo!!._id
                         }
-                    )
+                    }
+
+                    if (todo != null) {
+                        todoRepository.updateTodo(todoItem)
+                    } else {
+                        todoRepository.insertTodo(todoItem)
+                    }
+
+
+
                     sendUiEvent(UiEvent.PopBackStack)
                 }
 

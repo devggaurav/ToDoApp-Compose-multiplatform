@@ -41,7 +41,7 @@ class TodoRepositoryImpl : TodoRepository {
     }
 
     override suspend fun getTodoById(id: ObjectId): Todo? {
-        return realm?.query<Todo>("id == $0", id)?.first()?.find()
+        return realm?.query<Todo>("_id == $0", id)?.first()?.find()
     }
 
     override fun getTodos(): Flow<List<Todo>> {
