@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +27,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.trace
 import cafe.adriel.voyager.core.screen.Screen
@@ -106,11 +112,15 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
             containerColor = onPrimaryContainerLight
         ) {
 
+
             Column(
-                modifier = Modifier.fillMaxSize().padding(it),
+                modifier = Modifier.fillMaxSize().padding(it).imePadding(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                val firstFocusRequester = remember { FocusRequester() }
+                val secondFocusRequester = remember { FocusRequester() }
+
                 TextField(
                     value = addEditViewModel.title,
                     onValueChange = { addEditViewModel.onEvent(AddEditTodoEvent.OnTitleChange(it)) },
@@ -118,7 +128,15 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
                         Text(text = "Title")
                     },
                     maxLines = 1,
-                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)
+                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp).focusRequester(firstFocusRequester),
+                    keyboardOptions =  KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            secondFocusRequester.requestFocus()
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(
@@ -129,9 +147,17 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
                     placeholder = {
                         Text(text = "Description")
                     },
-                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp).focusRequester(secondFocusRequester),
                     singleLine = false,
-                    maxLines = 5
+                    maxLines = 5,
+                    keyboardOptions =  KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            addEditViewModel.onEvent(AddEditTodoEvent.OnSaveTodoClick)
+                        }
+                    )
                 )
 
 
