@@ -8,11 +8,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +32,8 @@ import presentation.addEditTodo.AddEditScreen
 import presentation.todoList.TodoItem
 import presentation.todoList.TodoListEvent
 import ui.UiEvent
+import ui.theme.onPrimaryContainerLight
+import ui.theme.primaryContainerLight
 
 
 //
@@ -36,6 +43,7 @@ import ui.UiEvent
 
 class HomeScreen : Screen {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -50,7 +58,11 @@ class HomeScreen : Screen {
                 when (event) {
 
                     is UiEvent.ShowSnackBar -> {
-                        snackBarHostState.showSnackbar(event.message, actionLabel = event.action)
+                        snackBarHostState.showSnackbar(
+                            event.message,
+                            actionLabel = event.action,
+                            duration = SnackbarDuration.Short
+                        )
 
                     }
 
@@ -78,11 +90,24 @@ class HomeScreen : Screen {
                         contentDescription = "Add"
                     )
                 }
-            }
+            },
+            topBar = {
+                TopAppBar(
+                    title = { Text("Todos") },
+                    colors = TopAppBarColors(
+                        containerColor = onPrimaryContainerLight,
+                        titleContentColor = primaryContainerLight,
+                        actionIconContentColor = primaryContainerLight,
+                        navigationIconContentColor = primaryContainerLight,
+                        scrolledContainerColor = onPrimaryContainerLight
+                    )
+                )
+            },
+            containerColor = onPrimaryContainerLight
         ) {
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(it)
             ) {
                 items(todos.value) { todo ->
                     TodoItem(

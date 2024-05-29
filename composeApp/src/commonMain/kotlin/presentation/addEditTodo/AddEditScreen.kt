@@ -1,5 +1,6 @@
 package presentation.addEditTodo
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -15,9 +17,12 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.trace
@@ -27,6 +32,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import data.Todo
 import ui.UiEvent
+import ui.theme.onPrimaryContainerLight
+import ui.theme.primaryContainerLight
 
 
 //
@@ -36,6 +43,7 @@ import ui.UiEvent
 
 class AddEditScreen(private val todo: Todo? = null) : Screen {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -72,7 +80,7 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
 
         Scaffold(
             snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier.fillMaxSize(),
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = { addEditViewModel.onEvent(AddEditTodoEvent.OnSaveTodoClick) }
@@ -82,11 +90,26 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
                         contentDescription = "Save"
                     )
                 }
-            }
+            },
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = if (todo == null) "Add Todo" else "Edit Todo") },
+                    colors = TopAppBarColors(
+                        containerColor = onPrimaryContainerLight,
+                        titleContentColor = primaryContainerLight,
+                        actionIconContentColor = primaryContainerLight,
+                        navigationIconContentColor = primaryContainerLight,
+                        scrolledContainerColor = onPrimaryContainerLight
+                    )
+                )
+            },
+            containerColor = onPrimaryContainerLight
         ) {
 
             Column(
-                modifier = Modifier.fillMaxSize().padding(it)
+                modifier = Modifier.fillMaxSize().padding(it),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 TextField(
                     value = addEditViewModel.title,
@@ -94,7 +117,8 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
                     placeholder = {
                         Text(text = "Title")
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(
@@ -105,7 +129,7 @@ class AddEditScreen(private val todo: Todo? = null) : Screen {
                     placeholder = {
                         Text(text = "Description")
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
                     singleLine = false,
                     maxLines = 5
                 )
