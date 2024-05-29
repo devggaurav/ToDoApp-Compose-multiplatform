@@ -3,9 +3,9 @@
 
 
 [iPhone]
-<img src="https://github.com/devggaurav/ToDoApp-Compose-multiplatform/assets/42926809/fedc9e41-c6f2-4275-8bd6-f0e127f5c87d" height="500px"> 
+<img src="https://github.com/devggaurav/ToDoApp-Compose-multiplatform/assets/42926809/7be30e2f-a4fe-4e9f-b827-aeb5a234a775" height="500px"> 
 [Android]
-<img src="https://github.com/devggaurav/ToDoApp-Compose-multiplatform/assets/42926809/baec1715-cd04-42ae-9e20-e00f4699956b" height="500px">
+<img src="https://github.com/devggaurav/ToDoApp-Compose-multiplatform/assets/42926809/405931fc-4ac8-4abe-b244-f3aaa2733e88" height="500px">
 
 
 
